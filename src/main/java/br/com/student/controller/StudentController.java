@@ -31,7 +31,7 @@ public class StudentController {
 	} 
 	
 	
-	@GetMapping(value="{id}",produces=MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value="/findStudentById/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
 	public Student findById(@PathVariable (value="id")Long id)throws Exception{
 		
 		return stService.findById(id);
@@ -39,19 +39,19 @@ public class StudentController {
 	
 	
 	
-	@PostMapping(value = "/{id}",consumes=MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/newStudent",consumes=MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
 	public Student createStudent(@RequestBody Student student) throws Exception {
 		
 		return stService.createStudent(student);
 	}
 	
-	@PutMapping(value ="/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value ="/updateStudent",consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Student updateStudent(@RequestBody Student student) throws Exception{
 		
 		return stService.updateStudent(student);
 	}
 	
-	@DeleteMapping(value = "/{id}")
+	@DeleteMapping(value = "deleteStudent/{id}")
 	public ResponseEntity<?> deleteStudent(@PathVariable(value="id")Long id)throws Exception{
 		
 		stService.deleteStudent(id);

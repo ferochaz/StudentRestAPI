@@ -1,20 +1,11 @@
-package br.com.student.model;
+package br.com.student.vo;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
-
-@Entity
-@Table(name="Students")
-public class Student implements Serializable {
-
+public class StudentVO implements Serializable{
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(age, firstGrade, firstName, id, lastName, secondGrade, thirdGrade);
@@ -28,7 +19,7 @@ public class Student implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Student other = (Student) obj;
+		StudentVO other = (StudentVO) obj;
 		return age == other.age && Double.doubleToLongBits(firstGrade) == Double.doubleToLongBits(other.firstGrade)
 				&& Objects.equals(firstName, other.firstName) && Objects.equals(id, other.id)
 				&& Objects.equals(lastName, other.lastName)
@@ -43,28 +34,26 @@ public class Student implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	
 	private Long id;
 	
-	@Column(name="FIRST_NAME",nullable=false,length=80)
 	private String firstName;
-	@Column(name="LAST_NAME",nullable=false,length=80)
+
 	private String lastName;
-	@Column(name="AGE",nullable=false)
+
 	private int age;
-	@Column(name="FIRST_GRADE",nullable=false)
+
 	private double firstGrade;
-	@Column(name="SECOND_GRADE",nullable=false)
+
 	private double secondGrade;
-	@Column(name="THIRD_GRADE",nullable=false)
+
 	private double thirdGrade;
 	
 	
-	public Student() {
+	public StudentVO() {
 	}
 	
-	public Student(Long id, String firstName, String lastName, int age, double firstGrade, double secondGrade,
+	public StudentVO(Long id, String firstName, String lastName, int age, double firstGrade, double secondGrade,
 			double thirdGrade) {
 		super();
 		this.id = id;
@@ -145,11 +134,5 @@ public class Student implements Serializable {
 	public void setThirdGrade(double thirdGrade) {
 		this.thirdGrade = thirdGrade;
 	}
-	
-	
-	
-	
-	
-	
 
 }

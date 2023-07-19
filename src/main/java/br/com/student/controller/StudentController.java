@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import br.com.student.model.Student;
 import br.com.student.service.StudentService;
+import br.com.student.vo.StudentVO;
 
 @RestController
 @RequestMapping("/students")
@@ -25,14 +24,14 @@ public class StudentController {
 	private StudentService stService;
 	
 	@GetMapping(produces= MediaType.APPLICATION_JSON_VALUE)
-	public List<Student>findAllStudents()throws Exception{
+	public List<StudentVO>findAllStudents()throws Exception{
 		
 		return stService.findAllStudents();
 	} 
 	
 	
 	@GetMapping(value="/findStudentById/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
-	public Student findById(@PathVariable (value="id")Long id)throws Exception{
+	public StudentVO findById(@PathVariable (value="id")Long id)throws Exception{
 		
 		return stService.findById(id);
 	}
@@ -40,13 +39,13 @@ public class StudentController {
 	
 	
 	@PostMapping(value = "/newStudent",consumes=MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
-	public Student createStudent(@RequestBody Student student) throws Exception {
+	public StudentVO createStudent(@RequestBody StudentVO student) throws Exception {
 		
 		return stService.createStudent(student);
 	}
 	
 	@PutMapping(value ="/updateStudent",consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Student updateStudent(@RequestBody Student student) throws Exception{
+	public StudentVO updateStudent(@RequestBody StudentVO student) throws Exception{
 		
 		return stService.updateStudent(student);
 	}

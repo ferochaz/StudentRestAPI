@@ -1,12 +1,12 @@
 package br.com.student.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import br.com.student.model.Student;
 import br.com.student.repositories.StudentRepository;
+import br.com.student.vo.StudentVO;
+import br.com.students.dozer.mapper.StudentDozerMapper;
 
 @Service
 public class StudentService {
@@ -14,42 +14,50 @@ public class StudentService {
 	@Autowired
 	StudentRepository stRepository;
 	
-	public List<Student>findAllStudents()throws Exception{
+	public List<StudentVO>findAllStudents()throws Exception{
 		
-		return stRepository.findAll();
+		return StudentDozerMapper.convertListOfStudents(stRepository.findAll(),StudentVO.class);
 	}
 	
-	public Student findById(Long id) throws Exception{
+	public StudentVO findById(Long id) throws Exception{
 		
-		return stRepository.findById(id).orElseThrow(()-> new RuntimeException("Could not find by Id"));
+		var entity= stRepository.findById(id).orElseThrow(()-> new RuntimeException("Could not find by Id"));
+		
+		return StudentDozerMapper.convertOneStudent(entity,StudentVO.class);
 	}
 	
-	public Student createStudent(Student student)throws Exception {
+	public StudentVO createStudent(StudentVO studentVO)throws Exception {
 		
-		return stRepository.save(student);
+		var entity = StudentDozerMapper.convertOneStudent(studentVO,Student.class);
+		
+		var vo = StudentDozerMapper.convertOneStudent(stRepository.save(entity),StudentVO.class);
+		
+		return vo;
 	}
 	
-	public Student readStudent(Student student)throws Exception {
+	public StudentVO readStudent(StudentVO StudentVO)throws Exception {
 		
-		return student;
+		return StudentVO;
 	}
 	
-	public Student updateStudent(Student student) throws Exception {
+	public StudentVO updateStudent(StudentVO StudentVO) throws Exception {
 		
-		var updatedStudent = stRepository.findById(student.getId()).orElseThrow(()-> new RuntimeException("Could not update student"));
+		var updatedStudent = stRepository.findById(StudentVO.getId()).orElseThrow(()-> new RuntimeException("Could not update StudentVO"));
 		
-		updatedStudent.setFirstName(student.getFirstName());
-		updatedStudent.setLastName(student.getLastName());
-		updatedStudent.setFirstGrade(student.getFirstGrade());
-		updatedStudent.setSecondGrade(student.getSecondGrade());
-		updatedStudent.setThirdGrade(student.getThirdGrade());
+		updatedStudent.setFirstName(StudentVO.getFirstName());
+		updatedStudent.setLastName(StudentVO.getLastName());
+		updatedStudent.setFirstGrade(StudentVO.getFirstGrade());
+		updatedStudent.setSecondGrade(StudentVO.getSecondGrade());
+		updatedStudent.setThirdGrade(StudentVO.getThirdGrade());
 		
-		return stRepository.save(student);
+		var vo = StudentDozerMapper.convertOneStudent(stRepository.save(updatedStudent),StudentVO.class);
+		
+		return vo;
 	}
 	
 	public void deleteStudent(Long id) {
 		
-		 var deletedStudent = stRepository.findById(id).orElseThrow(()-> new RuntimeException("could not delete the student"));
+		 var deletedStudent = stRepository.findById(id).orElseThrow(()-> new RuntimeException("could not delete the StudentVO"));
 		 
 		 stRepository.delete(deletedStudent);
 	}
